@@ -5,7 +5,7 @@ import play.Play
 import play.exceptions.{UnexpectedException,PlayException,TemplateNotFoundException}
 import play.data.validation.Validation
 import org.fusesource.scalate._
-import org.fusesource.scalate.support.FileResourceLoader
+import org.fusesource.scalate.util.FileResourceLoader
 import java.io.{StringWriter,PrintWriter}
 import java.io.{File}
 import org.fusesource.scalate.util.SourceCodeHelper
@@ -38,7 +38,8 @@ trait Provider {
   val bytecodeDirectory: Option[File] = None
 
   // Create and configure the Scalate template engine
-  private def initEngine(usePlayClassloader:Boolean = true, customImports: String="import controllers._;import models._;import play.utils._" ):TemplateEngine = {
+  //TODO: Nebu removed the import to models._ because this directory does not always exist.
+  private def initEngine(usePlayClassloader:Boolean = true, customImports: String="import controllers._;import play.utils._" ):TemplateEngine = {
     val engine = new TemplateEngine {
       override def bytecodeDirectory = 
         Provider.this.bytecodeDirectory.getOrElse(super.bytecodeDirectory)
@@ -87,7 +88,7 @@ trait Provider {
     val renderMode = Play.configuration.getProperty("scalate")
     //loading template
     val buffer = new StringWriter()
-    var context = new DefaultRenderContext(engine, new PrintWriter(buffer))
+    var context = new DefaultRenderContext(null, engine, new PrintWriter(buffer)) //TODO: Nebu didn't know what the Request URI was, so he set it to null.
     val renderArgs = Scope.RenderArgs.current()
      // try to fill context
     for (o <-args) {

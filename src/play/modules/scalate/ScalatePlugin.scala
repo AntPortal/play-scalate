@@ -29,7 +29,7 @@ package play.modules.scalate {
       this.name = file.getName
       this.source = file.getRealFile.getAbsolutePath
       def compile: Unit = pp.compile(this.source)
-      def render(args: java.util.Map[String, AnyRef]): String = { "" } 
+      def internalRender(args: java.util.Map[String, AnyRef]): String = { "" } 
     } 
 
     override def loadTemplate(file: VirtualFile ): Template = {

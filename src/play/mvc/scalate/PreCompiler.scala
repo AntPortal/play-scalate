@@ -28,7 +28,7 @@ class PrecompilerProvider extends Provider{
       val playPath = filePath.replace((new File(Play.applicationPath + "/app/views")).toString, "")
       play.Logger.info("compiling: " + playPath + " to:" + engine.bytecodeDirectory + " ...")
       val buffer = new StringWriter()
-      var context = new DefaultRenderContext(engine, new PrintWriter(buffer))
+      var context = new DefaultRenderContext(null, engine, new PrintWriter(buffer))  //TODO: Nebu didn't know what the Request URI was, so he set it to null.
       // populate playcontext
       context.attributes("playcontext") = PlayContext
       //set layout

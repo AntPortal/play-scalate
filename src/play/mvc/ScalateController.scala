@@ -7,7 +7,7 @@ abstract class ScalateController extends ScalaController with scalate.Provider {
     def asTemplate = renderWithScalate(name)
   }
 
-  private lazy val not_reached: results.ScalaRenderTemplate = null
+  private lazy val not_reached: results.Template = null
 
   override def Template = {
     renderWithScalate(args = Seq[Any]())
@@ -15,12 +15,9 @@ abstract class ScalateController extends ScalaController with scalate.Provider {
     not_reached // This line must not been executed.
   }
 
-  override def Template(_args: Any*) = { 
+  override def Template(_args: (Symbol, Any)*) = { 
     renderWithScalate(args = _args) 
 
     not_reached // This line must not been executed.    
   }
-
-  override def ^ = this.Template
-  override def ^(args: Any*) = this.Template(args:_*)
 }
