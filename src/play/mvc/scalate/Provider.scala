@@ -16,7 +16,7 @@ import play.mvc.{Scope, Http}
 
 trait Provider {
   
-  def renderWithScalate(templateName: String = null, args: Seq[Any] = Seq[Any]()){
+  def renderWithScalate(templateName: String = null, args: Seq[(Symbol, Any)] = Seq[(Symbol, Any)]()){
     //determine template
     val _templateName:String =
         if(templateName!=null){
@@ -84,18 +84,18 @@ trait Provider {
     fullPath.replace(new File(Play.applicationPath+"/app/views").toString,"")
   }
   
-  private def renderScalateTemplate(templateName:String, args:Seq[Any]) {
+  private def renderScalateTemplate(templateName:String, args:Seq[(Symbol, Any)]) {
     val renderMode = Play.configuration.getProperty("scalate")
     //loading template
     val buffer = new StringWriter()
     var context = new DefaultRenderContext(null, engine, new PrintWriter(buffer)) //TODO: Nebu didn't know what the Request URI was, so he set it to null.
     val renderArgs = Scope.RenderArgs.current()
      // try to fill context
-    for (o <-args) {
-        for (name <-LocalVariablesNamesTracer.getAllLocalVariableNames(o).iterator) {
-           context.attributes(name) = o
-        }   
-    }        
+    for (o <- args) {
+        assert(o._1.toString.startsWith("'"));
+        val name = o._1.toString.substring(1);
+        context.attributes(name) = o._2
+    }
     context.attributes("playcontext") = PlayContext
 
     // now add renderArgs as well
