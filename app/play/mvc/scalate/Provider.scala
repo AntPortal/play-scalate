@@ -91,10 +91,8 @@ trait Provider {
     var context = new DefaultRenderContext(null, engine, new PrintWriter(buffer)) //TODO: Nebu didn't know what the Request URI was, so he set it to null.
     val renderArgs = Scope.RenderArgs.current()
      // try to fill context
-    for (o <- args) {
-        assert(o._1.toString.startsWith("'"));
-        val name = o._1.toString.substring(1);
-        context.attributes(name) = o._2
+    for ((sym, value) <- args) {
+        context.attributes(sym.name) = value
     }
     context.attributes("playcontext") = PlayContext
 

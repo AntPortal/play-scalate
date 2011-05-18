@@ -10,3 +10,4 @@ dist
 *.pyc
 documentation/api
 .scala_dependencies
+bin
