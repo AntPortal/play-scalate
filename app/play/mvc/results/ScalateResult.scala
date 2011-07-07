@@ -1,7 +1,6 @@
 package play.mvc.results
 
 import play.mvc.Http.{Request,Response}
-import play.templates.Template
 import play.exceptions.UnexpectedException
 import play.libs.MimeTypes
 

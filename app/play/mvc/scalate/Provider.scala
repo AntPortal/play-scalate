@@ -72,7 +72,7 @@ trait Provider {
   def defaultTemplate = Http.Request.current().action
   def requestFormat = Http.Request.current().format 
   def controller = Http.Request.current().controller
-  def validationErrors = Validation.errors
+  def stValidationErrors = Validation.errors
 
  
 
@@ -102,7 +102,7 @@ trait Provider {
     }
     
     try {
-       context.attributes("errors") = validationErrors
+       context.attributes("errors") = stValidationErrors
     } catch { case ex:Exception => throw new UnexpectedException(ex)}
     
     try {
